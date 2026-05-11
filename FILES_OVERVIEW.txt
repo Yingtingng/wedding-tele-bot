@@ -1,0 +1,151 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                     WEDDING BOT - FILES OVERVIEW                           ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+📚 DOCUMENTATION (5 files)
+├── README.md                    Main introduction and quick start
+├── QUICKSTART.md               Step-by-step setup (5 steps, 15 mins)
+├── DEPLOYMENT.md               Detailed CDK deployment guide
+├── PROJECT_STRUCTURE.md        File structure and descriptions
+└── SUMMARY.md                  Complete project summary
+
+🐍 PYTHON SCRIPTS (5 files)
+├── parse_schedule.py           Parse Excel → JSON (97 tasks extracted)
+├── dynamodb_schema.py          Create/upload DynamoDB table
+├── telegram_bot.py             Local bot with polling (for testing)
+├── lambda_reminder.py          Lambda function for auto reminders
+└── test_local.py               Local testing suite (5 tests)
+
+☁️ AWS CDK INFRASTRUCTURE (3 files)
+├── app.py                      CDK application entry point
+├── wedding_bot_stack.py        Stack: DynamoDB + Lambda + EventBridge
+└── cdk.json                    CDK configuration
+
+📦 LAMBDA DEPLOYMENT (3 files)
+├── lambda/lambda_reminder.py        Deployed reminder function
+├── lambda/telegram_bot.py           Bot code for Lambda
+└── lambda/telegram_bot_handler.py   Webhook handler (optional)
+
+🔧 CONFIGURATION (4 files)
+├── requirements.txt            Python dependencies (5 packages)
+├── requirements-cdk.txt        CDK dependencies (2 packages)
+├── .gitignore                  Git ignore rules
+└── deploy.sh                   ONE-COMMAND DEPLOYMENT SCRIPT ⭐
+
+📊 DATA (1 file)
+└── schedule.json               Generated: 97 parsed tasks
+
+
+════════════════════════════════════════════════════════════════════════════
+
+🎯 MOST IMPORTANT FILES TO START:
+
+1. QUICKSTART.md        👈 START HERE! Complete setup guide
+2. deploy.sh            👈 Run this to deploy everything
+3. parse_schedule.py    👈 Run this to parse Excel
+4. dynamodb_schema.py   👈 Run this to upload to AWS
+
+════════════════════════════════════════════════════════════════════════════
+
+📝 TYPICAL WORKFLOW:
+
+┌─────────────────────────────────────────────────────────────────────────┐
+│  1. Read QUICKSTART.md                                                  │
+│  2. Setup Telegram bot                                                  │
+│  3. Set env variables: TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID           │
+│  4. Run: ./deploy.sh                                                   │
+│  5. Run: python parse_schedule.py                                     │
+│  6. Run: python dynamodb_schema.py create                             │
+│  7. Run: python dynamodb_schema.py upload                             │
+│  8. Test in Telegram: /start                                          │
+│  9. Done! ✅                                                            │
+└─────────────────────────────────────────────────────────────────────────┘
+
+════════════════════════════════════════════════════════════════════════════
+
+🏗️ WHAT GETS DEPLOYED TO AWS:
+
+DynamoDB Table          WeddingSchedule (97 tasks)
+Lambda Function #1      wedding-reminder-bot (auto reminders)
+Lambda Function #2      wedding-query-bot (queries - optional)
+EventBridge Rule        Triggers every 1 minute
+IAM Roles              Lambda execution + DynamoDB read
+CloudWatch Logs        7-day retention
+
+Cost: $0.00 (Free Tier) 💰
+
+════════════════════════════════════════════════════════════════════════════
+
+🧪 TESTING:
+
+Local Test Suite:       python test_local.py
+Test Bot Locally:       python telegram_bot.py
+Test Lambda:            aws lambda invoke --function-name wedding-reminder-bot
+View Logs:              aws logs tail /aws/lambda/wedding-reminder-bot --follow
+
+════════════════════════════════════════════════════════════════════════════
+
+📅 WEDDING DAY (May 9, 2026):
+
+05:25 SGT  →  Lambda checks  →  Task at 05:30  →  ⏰ Reminder sent!
+05:26 SGT  →  Lambda checks  →  No tasks       →  No reminder
+...
+All day long, every minute, automatically! 🎊
+
+════════════════════════════════════════════════════════════════════════════
+
+🎁 BONUS FILES:
+
+FILES_OVERVIEW.txt      This file - Quick reference
+.venv/                  Virtual environment (auto-created)
+lambda_layer/           Lambda dependencies (auto-built)
+cdk.out/                CDK output (auto-generated)
+
+════════════════════════════════════════════════════════════════════════════
+
+👥 PEOPLE TRACKED (11 total):
+
+Couple:         Mars 👰, Dan 🤵
+Bridesmaids:    YT, Karina, Sandy, Rachel, Michelle 👭
+Groomsmen:      Rana, Robert, Dom, Sandeep, Ryan 👬
+
+════════════════════════════════════════════════════════════════════════════
+
+🚀 DEPLOYMENT COMMANDS CHEAT SHEET:
+
+# Initial deployment
+./deploy.sh
+
+# Update Lambda code
+cdk deploy
+
+# Update schedule
+python parse_schedule.py && python dynamodb_schema.py upload
+
+# View deployed resources
+aws cloudformation describe-stacks --stack-name WeddingBotStack
+
+# Cleanup after wedding
+cdk destroy
+
+════════════════════════════════════════════════════════════════════════════
+
+📞 NEED HELP?
+
+Issue                   Solution
+─────────────────────  ──────────────────────────────────────────────
+Bot not responding     → Check TELEGRAM_BOT_TOKEN & TELEGRAM_CHAT_ID
+No reminders           → Check CloudWatch logs, verify date is 2026-05-09
+Deploy fails           → Run: cdk bootstrap
+DynamoDB error         → Run: python dynamodb_schema.py create
+Lambda error           → Check: aws logs tail /aws/lambda/wedding-reminder-bot
+
+════════════════════════════════════════════════════════════════════════════
+
+🎉 YOU'RE ALL SET!
+
+Read: QUICKSTART.md → Run: ./deploy.sh → Test in Telegram → Done! ✅
+
+Have an amazing wedding! 👰🤵💍🎊
+
+════════════════════════════════════════════════════════════════════════════
