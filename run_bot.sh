@@ -2,11 +2,8 @@
 # Script to run the Telegram bot locally
 
 # Set environment variables (from Lambda config)
-export TELEGRAM_BOT_TOKEN=os.environ["TELEGRAM_BOT_TOKEN"]
-export TELEGRAM_CHAT_ID=os.environ["TELEGRAM_CHAT_ID"]
-
-# Activate virtual environment
-source .venv/bin/activate
+export TELEGRAM_BOT_TOKEN=os.getenv('TELEGRAM_BOT_TOKEN')
+export TELEGRAM_CHAT_ID=os.getenv('TELEGRAM_CHAT_ID')
 
 echo "=========================================="
 echo "Starting Wedding Bot..."
